@@ -2,9 +2,14 @@
     <div class="quiz">
         <h1>Are you a gin expert?</h1>
 
+        <!-- Sjekker at antall spørsmål er mindre enn tot spørsmål -->
         <div class="quiz__box" v-if="index < count">
+
+        <!-- Loop for spørsmål -->
         <h2 class="quiz__question">{{ questions[index]['question'] }}</h2>
 
+        <!-- Loop for svar med key for å skille mellom de -->
+        <!-- Forskjellige classes basert på feil/riktig + hover effekt på alle. Hidden brukes bare for å skjule radio sirkelen -->
         <label
             class="quiz__answers"
             :for="key"
@@ -27,6 +32,8 @@
             {{ answer }}
         </label>
 
+
+        <!--v-show for at den bare skal vises når et svar er valgt + at det ikke er siste spørsmål -->
         <button
             class="btn"
             v-show="selectedAnswer != '' && index < count-1"
@@ -35,6 +42,8 @@
             Next >
         </button>
 
+
+        <!-- vil bare se den når siste spørsmål er svart -->
         <button
             class="btn"
             v-show="selectedAnswer != '' && index == count-1"
@@ -45,6 +54,8 @@
 
       </div>
 
+
+        <!-- bruker v-else sånn at vi enten bare ser resultat eller så ser vi quizen. -->
       <div v-else>
         <h2>Your Score Result</h2>
 
@@ -100,20 +111,29 @@ export default {
     },
 
     methods: {
+
+        // sjekker om angitte svaret er det samme som correctAnswer
         answered(e) {
             this.selectedAnswer = e.target.value
             if(this.selectedAnswer == this.questions[this.index]['correctAnswer'])
+                // øker correctAnswer med 1
                 this.correctAnswer++
             else
+                // hvis ikke ++ wrongAnswer
                 this.wrongAnswer++
         },
+
+        // øker indexen når man går til neste svar og tømmer selectedAnswer
         nextQuestion() {
             this.index++
             this.selectedAnswer = ''
         },
+
         showResults() {
             this.index++
         },
+
+        // nullstiller quizen og tar deg tilbake til start
         resetQuiz() {
             this.index = 0
             this.selectedAnswer = ''
